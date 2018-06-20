@@ -2,18 +2,23 @@
 import turicreate as turi
 import os
 
-model_name = "<Name of your coreml model>"
-data_url = "<folder name of your training data>"
-label_name = "<name of your label>"
+model_name = "Tech"
+folder_name = "images"
+label_name = "name"
 model = "resnet-50"
-sframe = "<sframe>"
+sframe = "name"
 
-data = turi.image_analysis.load_images(data_url)
+data = turi.image_analysis.load_images(folder_name)
 
-dir_path = len(os.path.dirname(os.path.realpath(__file__)) + data_url) + 1
+dir_path = len(os.path.dirname(os.path.realpath(__file__)) + folder_name) + 2
+p = os.path.realpath(__file__ + "/" + folder_name + "/").split("/")
+f = len(p[len(p) - 1])
+
+
 
 def get_label(path):
-        return path[dir_path]
+	p = path[dir_path:].split("/")[0]
+	return p
 
 data[label_name] = data["path"].apply(get_label)
 data.save(sframe + ".sframe")
@@ -27,7 +32,7 @@ model = turi.image_classifier.create(trainingBuffers, target=label_name, model=m
 
 evaluations = model.evaluate(testingBuffers)
 
-print(evaluations["accuracy"])
+print("Accuracy: " + evaluations["accuracy"])
 
 model.save(model_name + ".model")
 
