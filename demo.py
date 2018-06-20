@@ -32,7 +32,7 @@ model = turi.image_classifier.create(trainingBuffers, target=label_name, model=m
 
 evaluations = model.evaluate(testingBuffers)
 
-print("Accuracy: " + evaluations["accuracy"])
+print("Accuracy: " + str(evaluations["accuracy"]))
 
 model.save(model_name + ".model")
 
