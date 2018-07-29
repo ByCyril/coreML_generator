@@ -1,8 +1,13 @@
 
+from coremltools import *
 import turicreate as turi
 import os
 
-model_name = "Tech"
+model_name = input("Model name: ")
+author = input("Author name: ")
+license = input("License: ")
+short_description = input("Short Description: ")
+
 folder_name = "images"
 label_name = "name"
 model = "resnet-50"
@@ -36,4 +41,11 @@ print("Accuracy: " + str(evaluations["accuracy"]))
 model.save(model_name + ".model")
 
 model.export_coreml(model_name + ".mlmodel")
-# ###
+
+mlmodel = models.MLModel(model_name + ".mlmodel")
+mlmodel.author = author
+mlmodel.license = license
+mlmodel.short_description = short_description
+
+mlmodel.save(model_name + ".mlmodel")
+
